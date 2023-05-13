@@ -15,10 +15,10 @@ const Scrollbar: FC<ScrollbarProps> = ({ children }) => {
   return (
     <>
       <motion.div
-        className="fixed bottom-0 left-0 top-0 h-full w-2 origin-top bg-primary"
+        className="fixed bottom-0 left-0 top-0 hidden h-full w-2 origin-top bg-primary md:block"
         style={{ scaleY: scaleY }}
       />
-      <div className="ml-2">{children}</div>
+      <div className="md:ml-2">{children}</div>
     </>
   );
 };
