@@ -6,11 +6,11 @@ type GalleryProps = {};
 const Gallery: FC<GalleryProps> = ({}) => {
   return (
     <section
-      className="mx-4 overflow-hidden rounded-md bg-gray-50 sm:grid sm:grid-cols-2"
+      className="mx-4 overflow-hidden rounded-md bg-gray-50 md:grid md:grid-cols-2"
       id="gallery"
     >
       <div className="p-8 md:p-12 lg:px-16 lg:py-24">
-        <div className="mx-auto max-w-xl text-center ltr:sm:text-left rtl:sm:text-right">
+        <div className="mx-auto max-w-xl text-center ltr:md:text-left rtl:md:text-right">
           <motion.h2
             className="text-2xl font-bold text-gray-900 md:text-3xl"
             initial={{ opacity: 0 }}
@@ -60,7 +60,7 @@ const Gallery: FC<GalleryProps> = ({}) => {
       <motion.img
         alt="Engagement Photo"
         src="images/kaitlynwesley-45.jpg"
-        className="h-56 w-full rounded-md object-cover sm:h-full"
+        className="h-56 w-full rounded-md object-cover md:h-full"
         initial={{ x: 200, opacity: 0 }}
         whileInView={{ x: 0, opacity: 1 }}
         transition={{ duration: 0.5 }}
