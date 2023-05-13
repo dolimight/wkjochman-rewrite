@@ -107,7 +107,7 @@ const Card: FC<CardProps> = ({
 }) => {
   return (
     <motion.div
-      className="m-2 flex flex-col justify-between rounded-xl bg-gray-50 p-4 text-center sm:p-6 lg:w-1/4 lg:p-8 lg:text-left"
+      className="m-2 flex flex-col justify-between rounded-xl bg-gray-50 p-4 text-center sm:p-6 lg:w-1/4 lg:items-start lg:p-8 lg:text-left"
       initial={{ y: 100, opacity: 0 }}
       whileInView={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, delay: (index ?? 0) * 0.25 }}
