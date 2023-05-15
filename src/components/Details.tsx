@@ -152,7 +152,7 @@ const Details: FC<DetailsProps> = ({}) => {
           viewport={{ once: true }}
         >
           <h2 className=" text-3xl font-bold sm:text-4xl">Details</h2>
-          <p className="mt-4 text-gray-300">
+          <p className="mt-4 text-gray-400">
             To make your day as enjoyable as possible we have provided all the
             details you will need! If you have any questions about the day
             please visit the FAQ for more information!
@@ -173,10 +173,10 @@ const Details: FC<DetailsProps> = ({}) => {
           viewport={{ once: true }}
         >
           <h2 className="text-3xl font-bold sm:text-4xl">Dress Code</h2>
-          <p className="mt-4 text-gray-300">
+          <p className="mt-4 text-gray-400">
             We would love to see our family and friends get dressed up with us!
-            We are requesting a semi-formal dress code for the evening. Wear
-            whatever color you'd like, but please no white.
+            We are requesting a 'Fancy but Friendly' dress code for the evening.
+            Wear whatever color you'd like, but please no white.
           </p>
         </motion.div>
       </div>
@@ -189,7 +189,7 @@ const Details: FC<DetailsProps> = ({}) => {
           viewport={{ once: true }}
         >
           <h2 className=" text-3xl font-bold sm:text-4xl">Hotels</h2>
-          <p className="mt-4 text-gray-300">
+          <p className="mt-4 text-gray-400">
             We are not reserving any hotel blocks, but if you plan to stay
             overnight here are some reccomendations!
           </p>
@@ -209,7 +209,7 @@ const Details: FC<DetailsProps> = ({}) => {
           viewport={{ once: true }}
         >
           <h2 className=" text-3xl font-bold sm:text-4xl">Airports</h2>
-          <p className="mt-4 text-gray-300">
+          <p className="mt-4 text-gray-400">
             If you are flying in for the wedding, here are some airports to
             consider!
           </p>

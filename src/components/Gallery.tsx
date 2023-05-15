@@ -38,7 +38,7 @@ const Gallery: FC<GalleryProps> = ({}) => {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               target="_blank"
-              href="https://photos.google.com/share/AF1QipPDkNKc2XWZqih-keWZOKp9-VRT6m9NdgqWozKf3GqU2TZ6CHQSdzTiO1stQJ4YVA?key=YUNaLVctZ2I0bjYzQlpCMmlKTFpKS05EY1pFc19R"
+              href="https://photos.app.goo.gl/b1trjNjE7CfeNZbv9"
               className="inline-block rounded bg-primary px-12 py-3 text-sm font-medium text-white transition hover:brightness-105 focus:outline-none focus:ring focus:ring-primary focus:ring-offset-1"
             >
               Engagement

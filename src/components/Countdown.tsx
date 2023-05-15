@@ -28,7 +28,7 @@ const Card: FC<CardProps> = ({ label, value, index }) => {
 type CountdownProps = {};
 
 const Countdown: FC<CountdownProps> = ({}) => {
-  const [days, hours, minutes] = useCountdown("Aug 12, 2023");
+  const [days, hours, minutes] = useCountdown("Aug 12, 2023 15:00:00");
 
   const cards = [
     { label: "Days", value: days },
