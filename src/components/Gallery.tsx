@@ -6,7 +6,7 @@ type GalleryProps = {};
 const Gallery: FC<GalleryProps> = ({}) => {
   return (
     <section
-      className="mx-4 overflow-hidden rounded-md bg-gray-50 md:grid md:grid-cols-2"
+      className="mx-2 overflow-hidden rounded-md bg-gray-50 md:grid md:grid-cols-2"
       id="gallery"
     >
       <div className="p-8 md:p-12 lg:px-16 lg:py-24">
