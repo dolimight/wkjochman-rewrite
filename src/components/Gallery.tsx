@@ -6,7 +6,7 @@ type GalleryProps = {};
 const Gallery: FC<GalleryProps> = ({}) => {
   return (
     <section
-      className="mx-4 overflow-hidden rounded-md bg-gray-50 md:grid md:grid-cols-2"
+      className="mx-2 overflow-hidden rounded-md bg-gray-50 md:grid md:grid-cols-2"
       id="gallery"
     >
       <div className="p-8 md:p-12 lg:px-16 lg:py-24">
@@ -38,7 +38,7 @@ const Gallery: FC<GalleryProps> = ({}) => {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               target="_blank"
-              href="https://photos.google.com/share/AF1QipPDkNKc2XWZqih-keWZOKp9-VRT6m9NdgqWozKf3GqU2TZ6CHQSdzTiO1stQJ4YVA?key=YUNaLVctZ2I0bjYzQlpCMmlKTFpKS05EY1pFc19R"
+              href="https://photos.app.goo.gl/b1trjNjE7CfeNZbv9"
               className="inline-block rounded bg-primary px-12 py-3 text-sm font-medium text-white transition hover:brightness-105 focus:outline-none focus:ring focus:ring-primary focus:ring-offset-1"
             >
               Engagement

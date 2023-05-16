@@ -21,7 +21,7 @@ const Navigation: FC<NavigationProps> = ({}) => {
       >
         <span className="sr-only">Rings</span>
         <motion.img
-          src="wedding-ring.png"
+          src="/images/wedding-ring.png"
           alt=""
           className="p-2"
           initial={{ rotate: -360 }}

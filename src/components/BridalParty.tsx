@@ -51,7 +51,7 @@ const bridalParty: { name?: string; people: CardProps[] }[] = [
       },
       {
         name: "Allison DeBruin",
-        img: "IMG_3981_edited.webp",
+        img: "allison.webp",
       },
       {
         name: "Lillian DeBruin",
@@ -69,11 +69,11 @@ const bridalParty: { name?: string; people: CardProps[] }[] = [
       { name: "Connor Jordan", img: "connor_JPG.webp" },
       {
         name: "Bryce Jochman",
-        img: "IMG_3981_edited.webp",
+        img: "bryce.webp",
       },
       {
         name: "Stewart Larson",
-        img: "IMG_3981_edited.webp",
+        img: "stewart.webp",
       },
       {
         name: "Samuel DeBruin",
@@ -97,7 +97,7 @@ const BridalParty: FC<BridalPartyProps> = ({}) => {
           viewport={{ once: true }}
         >
           <h2 className="text-3xl font-bold sm:text-4xl">Bridal Party</h2>
-          <p className="mt-4 text-gray-300">
+          <p className="mt-4 text-gray-400">
             It's an honor to present our family members and very closest friends
             who will be our bridesmaids and groomsmen. They've stood by us
             throughout our entire relationship and in some cases much longer,

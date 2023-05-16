@@ -7,6 +7,18 @@ import {
   createBrowserRouter,
 } from "react-router-dom";
 import Home from "./pages/Home";
+import { initializeApp } from "firebase/app";
+import RSVP from "./pages/RSVP";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAmAoy9u9tmFNbnI0wgVLZMvDS2nyy1pjQ",
+  authDomain: "wkjochman.firebaseapp.com",
+  projectId: "wkjochman",
+  storageBucket: "wkjochman.appspot.com",
+  messagingSenderId: "943008904946",
+  appId: "1:943008904946:web:e07495cc548380ed64426b",
+  measurementId: "G-V7DNGLEF1L",
+};
 
 const router = createBrowserRouter([
   {
@@ -14,10 +26,16 @@ const router = createBrowserRouter([
     element: <Home />,
   },
   {
+    path: "/rsvp",
+    element: <RSVP />,
+  },
+  {
     path: "*",
     element: <Navigate to="/" />,
   },
 ]);
+
+initializeApp(firebaseConfig);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
