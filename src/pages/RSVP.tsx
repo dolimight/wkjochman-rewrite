@@ -1,4 +1,4 @@
-import { FC, FunctionComponent, useRef, useState } from "react";
+import { FC, FunctionComponent, useCallback, useRef, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import useCode from "../hooks/useCode";
 import useRSVP, { Age, ComingTo, Person } from "../hooks/useRSVP";
@@ -11,13 +11,22 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Respondant } from "../hooks/useRespondant";
-import useFirebase from "../hooks/useFirebase";
+import ConfettiExplosion from "react-confetti-explosion";
+import classNames from "classnames";
 
 type RSVPProps = {};
 
 const RSVP: FC<RSVPProps> = ({}) => {
   const { code, handleCodeChange } = useCode();
-  const { respondant, loading, weddingPhoto } = useRSVP(code);
+  const { respondant, loading, weddingPhoto, updateRSVP } = useRSVP(code);
+  const [isExploding, setIsExploding] = useState(false);
+
+  const handleDone = useCallback(
+    async (res: Respondant, photo?: File | null) => {
+      await updateRSVP(res, setIsExploding, photo);
+    },
+    []
+  );
 
   return (
     <>
@@ -41,20 +50,25 @@ const RSVP: FC<RSVPProps> = ({}) => {
           </div>
         </div>
       ) : (
-        <div className="flex h-screen w-full justify-center text-center">
-          <RSVPForm respondant={respondant} weddingPhotoProp={weddingPhoto} />
+        <div className="flex w-full justify-center text-center">
+          <RSVPForm
+            respondant={respondant}
+            weddingPhotoProp={weddingPhoto}
+            onDone={handleDone}
+            isExploding={isExploding}
+            setIsExploding={setIsExploding}
+          />
         </div>
       )}
+
       <ToastContainer
         position="top-center"
-        autoClose={5000}
+        autoClose={2500}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
         rtl={false}
-        pauseOnFocusLoss
         draggable
-        pauseOnHover={false}
         theme="light"
       />
     </>
@@ -64,13 +78,18 @@ const RSVP: FC<RSVPProps> = ({}) => {
 interface RSVPFormProps {
   respondant: Respondant | null;
   weddingPhotoProp?: string;
+  onDone: (res: Respondant, photo?: File | null) => Promise<void>;
+  isExploding?: boolean;
+  setIsExploding: (isExploding: boolean) => void;
 }
 
 const RSVPForm: FunctionComponent<RSVPFormProps> = ({
   respondant,
   weddingPhotoProp,
+  onDone,
+  isExploding,
+  setIsExploding,
 }) => {
-  const {} = useFirebase();
   const res = respondant;
   const [names, setNames] = useState(res?.names ?? ([] as Person[]));
   const [personHistory, setPersonHistory] = useState([] as Person[]);
@@ -81,9 +100,7 @@ const RSVPForm: FunctionComponent<RSVPFormProps> = ({
   const stateRef = useRef<HTMLInputElement>(null);
   const zipRef = useRef<HTMLInputElement>(null);
   const weddingPhotoRef = useRef<HTMLInputElement>(null);
-  const [weddingPhoto, setWeddingPhoto] = useState<string | undefined>(
-    weddingPhotoProp
-  );
+  const [weddingPhoto, setWeddingPhoto] = useState<string>();
 
   const remove = (person: Person) => {
     setPersonHistory([...personHistory, person]);
@@ -97,7 +114,7 @@ const RSVPForm: FunctionComponent<RSVPFormProps> = ({
   };
 
   return (
-    <div className="m-2 flex flex-col gap-6 rounded-md bg-gray-50 px-32 py-2">
+    <div className="m-2 flex flex-col gap-6 rounded-md bg-gray-50 px-4 py-2 md:px-32">
       <h1 className="text-4xl font-bold">RSVP Form</h1>
       <form autoComplete="off" className="flex flex-col items-center gap-2">
         <h2 className="text-2xl font-semibold">People Invited</h2>
@@ -116,7 +133,7 @@ const RSVPForm: FunctionComponent<RSVPFormProps> = ({
       </form>
       {res?.getsPlusOne && (
         <form autoComplete="off" className="flex flex-col items-center gap-2">
-          <h2 className="text-lg font-semibold">
+          <h2 className="text-2xl font-semibold">
             Plus One
             {!plusOne && (
               <button
@@ -140,9 +157,9 @@ const RSVPForm: FunctionComponent<RSVPFormProps> = ({
         </form>
       )}
       <form autoComplete="on" className="flex flex-col items-center gap-2">
-        <h2 className="text-lg font-semibold">Current Address</h2>
+        <h2 className="text-2xl font-semibold">Current Address</h2>
         <input
-          className="h-10 w-full rounded-l-md bg-gray-100 p-2 focus:outline-none"
+          className="w-full rounded-md bg-gray-100 p-2 focus:outline-none"
           type="text"
           id="address-in"
           name="address-in"
@@ -152,7 +169,7 @@ const RSVPForm: FunctionComponent<RSVPFormProps> = ({
           ref={addressRef}
         />
         <input
-          className="h-10 w-full rounded-l-md bg-gray-100 p-2 focus:outline-none"
+          className="w-full rounded-md bg-gray-100 p-2 focus:outline-none"
           type="text"
           id="city"
           name="city"
@@ -162,7 +179,7 @@ const RSVPForm: FunctionComponent<RSVPFormProps> = ({
           ref={cityRef}
         />
         <input
-          className="h-10 w-full rounded-l-md bg-gray-100 p-2 focus:outline-none"
+          className="w-full rounded-md bg-gray-100 p-2 focus:outline-none"
           type="text"
           id="state"
           name="state"
@@ -172,7 +189,7 @@ const RSVPForm: FunctionComponent<RSVPFormProps> = ({
           ref={stateRef}
         />
         <input
-          className="h-10 w-full rounded-l-md bg-gray-100 p-2 focus:outline-none"
+          className="w-full rounded-md bg-gray-100 p-2 focus:outline-none"
           type="text"
           id="zipCode"
           name="zipCode"
@@ -181,11 +198,12 @@ const RSVPForm: FunctionComponent<RSVPFormProps> = ({
           defaultValue={res?.address.zipCode.toString() ?? ""}
           ref={zipRef}
         />
-        <h2 className="text-lg font-semibold">Wedding Photo</h2>
-        <div className="w-48">
-          {weddingPhoto && <img src={weddingPhoto} alt="" />}
+        <h2 className="text-2xl font-semibold">Wedding Photo</h2>
+        <div className="h-36 w-36 overflow-hidden rounded-md bg-gray-100">
+          <img src={weddingPhoto ?? weddingPhotoProp} alt="" />
         </div>
         <input
+          className="rounded-md bg-gray-100 p-2"
           type="file"
           id="weddingPhoto"
           name="weddingPhoto"
@@ -200,8 +218,12 @@ const RSVPForm: FunctionComponent<RSVPFormProps> = ({
         ></input>
       </form>
       <form className="flex flex-col items-center gap-2">
-        <h2 className="text-lg font-semibold">Coming to?</h2>
-        <select defaultValue={res?.comingTo} ref={comingToRef}>
+        <h2 className="text-2xl font-semibold">Coming to?</h2>
+        <select
+          defaultValue={res?.comingTo}
+          ref={comingToRef}
+          className="cursor-pointer rounded-md bg-gray-100 p-2"
+        >
           {Object.values(ComingTo)
             .filter((i) => isNaN(Number(i)))
             .map((value, index) => (
@@ -210,8 +232,55 @@ const RSVPForm: FunctionComponent<RSVPFormProps> = ({
               </option>
             ))}
         </select>
-        <button type="button" onClick={async () => {}}>
+        <button
+          type="button"
+          onClick={async () => {
+            if (
+              !comingToRef.current ||
+              !addressRef.current ||
+              !cityRef.current ||
+              !stateRef.current ||
+              !zipRef.current ||
+              !res ||
+              isExploding
+            )
+              return;
+
+            onDone(
+              {
+                ...res,
+                address: {
+                  address: addressRef.current.value,
+                  city: cityRef.current.value,
+                  state: stateRef.current.value,
+                  zipCode: Number(zipRef.current.value),
+                },
+                comingTo: Number(comingToRef.current.value),
+                plusOne,
+              },
+              weddingPhotoRef.current?.files?.item(0)
+            );
+          }}
+          className={classNames(
+            "mt-6 w-full rounded-md bg-primary p-2 text-white hover:brightness-105",
+            isExploding && "cursor-not-allowed brightness-95"
+          )}
+          disabled={isExploding}
+        >
           Submit
+          <span className="grid place-items-center">
+            {isExploding && (
+              <ConfettiExplosion
+                force={1.5}
+                particleCount={250}
+                width={1600}
+                colors={["#FDB0F0", "#FFEF5F", "#141414"]}
+                onComplete={() => {
+                  setIsExploding(false);
+                }}
+              />
+            )}
+          </span>
         </button>
       </form>
     </div>
@@ -230,9 +299,9 @@ const RSVPPerson: FunctionComponent<RSVPPersonProps> = ({
   onUpdate,
 }) => {
   return (
-    <div className="w-fit rounded-md bg-gray-200 p-2">
+    <div className="w-fit rounded-md bg-gray-100 p-2">
       <input
-        className="h-10 rounded-l-md bg-gray-100 p-2 focus:outline-none"
+        className="h-10 rounded-l-md bg-gray-50 p-2 focus:outline-none"
         type="text"
         placeholder="Name"
         id={person.name}
@@ -244,7 +313,7 @@ const RSVPPerson: FunctionComponent<RSVPPersonProps> = ({
         }}
       />
       <select
-        className="h-10 rounded-r-md bg-gray-100"
+        className="h-10 cursor-pointer rounded-r-md bg-gray-50"
         defaultValue={person.age.toString()}
         onChange={(e) => {
           person.age = parseInt(e.target.value);

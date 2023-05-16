@@ -54,12 +54,17 @@ const useRSVP = (code: string | null) => {
     if (respondant && !weddingPhoto) getImage(respondant);
   }, [respondant, weddingPhoto]);
 
-  const updateRSVP = async (data: Respondant, file?: File | null) => {
+  const updateRSVP = async (
+    data: Respondant,
+    setIsExploding: (isExploding: boolean) => void,
+    file?: File | null
+  ) => {
     try {
       if (file) {
         await uploadImage(data, file);
       }
       await addRSVP(data);
+      setIsExploding(true);
       toast.success("Successfully submitted!");
     } catch (e) {
       toast.error("Something went wrong. Please try again!");

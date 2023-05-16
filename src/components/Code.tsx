@@ -31,6 +31,12 @@ const Code: FC<CodeProps> = ({
     <div>
       {inputs.map((_, i) => (
         <input
+          onPaste={(e) => {
+            const pasted = e.clipboardData.getData("text");
+            if (pasted.length === length) {
+              setCode(pasted);
+            }
+          }}
           disabled={loading}
           ref={(el) => (el ? (itemsRef.current[i] = el) : null)}
           autoFocus={i === 0}
