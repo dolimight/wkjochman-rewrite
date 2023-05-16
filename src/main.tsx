@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import Home from "./pages/Home";
 import { initializeApp } from "firebase/app";
+import RSVP from "./pages/RSVP";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAmAoy9u9tmFNbnI0wgVLZMvDS2nyy1pjQ",
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+  },
+  {
+    path: "/rsvp",
+    element: <RSVP />,
   },
   {
     path: "*",
