@@ -9,6 +9,7 @@ import {
 import Home from "./pages/Home";
 import { initializeApp } from "firebase/app";
 import RSVP from "./pages/RSVP";
+import Massload from "./pages/Massload";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAmAoy9u9tmFNbnI0wgVLZMvDS2nyy1pjQ",
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
   {
     path: "/faq",
     element: <Navigate to="/?ref=faq" />,
+  },
+  {
+    path: "/admin/upload",
+    element: <Massload />,
   },
   {
     path: "*",
