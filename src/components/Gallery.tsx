@@ -31,7 +31,7 @@ const Gallery: FC<GalleryProps> = ({}) => {
             love, laughter, and joy of our special day. We hope you enjoy them
             as much as we do.
           </motion.p>
-          <div className="mt-4 flex justify-center gap-2 md:mt-8">
+          <div className="mt-4 flex flex-col justify-center gap-2 md:mt-8">
             <motion.a
               initial={{ opacity: 0 }}
               transition={{ duration: 0.5 }}
@@ -52,7 +52,18 @@ const Gallery: FC<GalleryProps> = ({}) => {
               href="https://photos.google.com/share/AF1QipOHiV0ok7xQPagihZm9t54G4YMpkuVAyKpkdQOqlp_i_l_ACg3y8oCzpeWlwlWaDA?key=emZFWDk2ZUJUSlR0Y1JvWGtMNmdqM0dNRjIzeGRn"
               className="inline-block rounded bg-primary px-12 py-3 text-sm font-medium text-white transition hover:brightness-105 focus:outline-none focus:ring focus:ring-primary focus:ring-offset-1"
             >
-              Wedding
+              Wedding (Guest Photos)
+            </motion.a>
+            <motion.a
+              initial={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              target="_blank"
+              href="https://photos.app.goo.gl/S2YiZybtQaJ6xQPo6"
+              className="inline-block rounded bg-primary px-12 py-3 text-sm font-medium text-white transition hover:brightness-105 focus:outline-none focus:ring focus:ring-primary focus:ring-offset-1"
+            >
+              Wedding (Professional Photos)
             </motion.a>
           </div>
         </div>
