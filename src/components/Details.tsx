@@ -58,13 +58,6 @@ const hotels: CardProps[] = [
     link: "https://www.wyndhamhotels.com/baymont/plymouth-wisconsin/baymont-inn-and-suites-plymouth/overview?CID=LC:BU::GGL:RIO:National:50121&iata=00093796",
     icon: faHotel,
   },
-  {
-    title: "The American Club",
-    duration: "~30 Minutes",
-    location: "Sheboygan, WI",
-    link: "https://www.americanclubresort.com/",
-    icon: faHotel,
-  },
 ];
 
 const airports: CardProps[] = [
@@ -176,7 +169,6 @@ const Details: FC<DetailsProps> = ({}) => {
           <p className="mt-4 text-gray-400">
             We would love to see our family and friends get dressed up with us!
             We are requesting a 'Fancy but Friendly' dress code for the evening.
-            Wear whatever color you'd like, but please no white.
           </p>
         </motion.div>
       </div>

@@ -22,7 +22,7 @@ type Person = {
   age: Age;
 };
 
-const useRSVP = (code: string | null) => {
+const useRSVP = (code: string | null, resetCode: () => any) => {
   const { database, storage } = useFirebase();
   const respondantHook = useRespondant();
   const rsvps = collection(database, "rsvps");
@@ -79,6 +79,7 @@ const useRSVP = (code: string | null) => {
         setRespondant(document.data() as Respondant);
       } else {
         toast.error("Invalid code");
+        resetCode();
       }
       setLoading(false);
     };

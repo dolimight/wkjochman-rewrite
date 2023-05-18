@@ -30,6 +30,10 @@ const router = createBrowserRouter([
     element: <RSVP />,
   },
   {
+    path: "/faq",
+    element: <Navigate to="/?ref=faq" />,
+  },
+  {
     path: "*",
     element: <Navigate to="/" />,
   },

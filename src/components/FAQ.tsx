@@ -25,17 +25,7 @@ const faqs: CardProps[] = [
   {
     title: "What is the dress code?",
     description:
-      "We would love to see our family and friends get dressed up with us! We are requesting a 'Fancy but Friendly' dress code for the evening. Wear whatever color you'd like, but please no white.",
-  },
-  {
-    title: "Can I bring a guest?",
-    description:
-      "If a plus one is listed on your invite and when you RSVP, then yes! Otherwise we want to keep the wedding with just friends and family ❤️",
-  },
-  {
-    title: "Can I bring my children?",
-    description:
-      "Unless your children are listed on your invite, we ask that you please leave them at home",
+      "We would love to see our family and friends get dressed up with us! We are requesting a 'Fancy but Friendly' dress code for the evening.",
   },
   {
     title: "What if I forget to RSVP?",

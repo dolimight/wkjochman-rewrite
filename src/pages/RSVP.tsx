@@ -18,7 +18,9 @@ type RSVPProps = {};
 
 const RSVP: FC<RSVPProps> = ({}) => {
   const { code, handleCodeChange } = useCode();
-  const { respondant, loading, weddingPhoto, updateRSVP } = useRSVP(code);
+  const { respondant, loading, weddingPhoto, updateRSVP } = useRSVP(code, () =>
+    handleCodeChange("")
+  );
   const [isExploding, setIsExploding] = useState(false);
 
   const handleDone = useCallback(
@@ -38,6 +40,7 @@ const RSVP: FC<RSVPProps> = ({}) => {
                 Please Enter Your RSVP Code
               </h1>
               <Code
+                placeholder={code ?? ""}
                 length={6}
                 onCompleted={handleCodeChange}
                 loading={loading}
@@ -50,7 +53,7 @@ const RSVP: FC<RSVPProps> = ({}) => {
           </div>
         </div>
       ) : (
-        <div className="flex w-full justify-center text-center">
+        <div className="grid place-items-center">
           <RSVPForm
             respondant={respondant}
             weddingPhotoProp={weddingPhoto}
@@ -114,7 +117,7 @@ const RSVPForm: FunctionComponent<RSVPFormProps> = ({
   };
 
   return (
-    <div className="m-2 flex flex-col gap-6 rounded-md bg-gray-50 px-4 py-2 md:px-32">
+    <div className="m-2 flex max-w-xl flex-col gap-6 rounded-md py-16 text-center">
       <h1 className="text-4xl font-bold">RSVP Form</h1>
       <form autoComplete="off" className="flex flex-col items-center gap-2">
         <h2 className="text-2xl font-semibold">People Invited</h2>
@@ -156,66 +159,72 @@ const RSVPForm: FunctionComponent<RSVPFormProps> = ({
           )}
         </form>
       )}
-      <form autoComplete="on" className="flex flex-col items-center gap-2">
-        <h2 className="text-2xl font-semibold">Current Address</h2>
-        <input
-          className="w-full rounded-md bg-gray-100 p-2 focus:outline-none"
-          type="text"
-          id="address-in"
-          name="address-in"
-          placeholder="Address"
-          autoComplete="street-address"
-          defaultValue={res?.address.address ?? ""}
-          ref={addressRef}
-        />
-        <input
-          className="w-full rounded-md bg-gray-100 p-2 focus:outline-none"
-          type="text"
-          id="city"
-          name="city"
-          placeholder="City"
-          autoComplete="address-level2"
-          defaultValue={res?.address.city ?? ""}
-          ref={cityRef}
-        />
-        <input
-          className="w-full rounded-md bg-gray-100 p-2 focus:outline-none"
-          type="text"
-          id="state"
-          name="state"
-          placeholder="State"
-          autoComplete="address-level1"
-          defaultValue={res?.address.state ?? ""}
-          ref={stateRef}
-        />
-        <input
-          className="w-full rounded-md bg-gray-100 p-2 focus:outline-none"
-          type="text"
-          id="zipCode"
-          name="zipCode"
-          placeholder="Zip Code"
-          autoComplete="postal-code"
-          defaultValue={res?.address.zipCode.toString() ?? ""}
-          ref={zipRef}
-        />
-        <h2 className="text-2xl font-semibold">Wedding Photo</h2>
-        <div className="h-36 w-36 overflow-hidden rounded-md bg-gray-100">
-          <img src={weddingPhoto ?? weddingPhotoProp} alt="" />
+      <form autoComplete="on">
+        <h2 className="mb-2 text-2xl font-semibold">Current Address</h2>
+        <div className="flex flex-col items-center gap-2">
+          <input
+            className="w-full rounded-md bg-gray-100 p-2 focus:outline-none"
+            type="text"
+            id="address-in"
+            name="address-in"
+            placeholder="Address"
+            autoComplete="street-address"
+            defaultValue={res?.address.address ?? ""}
+            ref={addressRef}
+          />
+          <input
+            className="w-full rounded-md bg-gray-100 p-2 focus:outline-none"
+            type="text"
+            id="city"
+            name="city"
+            placeholder="City"
+            autoComplete="address-level2"
+            defaultValue={res?.address.city ?? ""}
+            ref={cityRef}
+          />
+          <input
+            className="w-full rounded-md bg-gray-100 p-2 focus:outline-none"
+            type="text"
+            id="state"
+            name="state"
+            placeholder="State"
+            autoComplete="address-level1"
+            defaultValue={res?.address.state ?? ""}
+            ref={stateRef}
+          />
+          <input
+            className="w-full rounded-md bg-gray-100 p-2 focus:outline-none"
+            type="text"
+            id="zipCode"
+            name="zipCode"
+            placeholder="Zip Code"
+            autoComplete="postal-code"
+            defaultValue={res?.address.zipCode.toString() ?? ""}
+            ref={zipRef}
+          />
+          <h2 className="text-2xl font-semibold">Wedding Photo</h2>
+          <div className="h-36 w-36 overflow-hidden rounded-md bg-gray-100">
+            <img
+              src={weddingPhoto ?? weddingPhotoProp}
+              alt=""
+              className="h-full w-full object-cover"
+            />
+          </div>
+          <input
+            className="w-full rounded-md bg-gray-100 p-2"
+            type="file"
+            id="weddingPhoto"
+            name="weddingPhoto"
+            accept="image/png, image/jpeg"
+            ref={weddingPhotoRef}
+            onChange={(event) => {
+              const file = event.target.files?.item(0);
+              if (file) {
+                setWeddingPhoto(URL.createObjectURL(file));
+              }
+            }}
+          />
         </div>
-        <input
-          className="rounded-md bg-gray-100 p-2"
-          type="file"
-          id="weddingPhoto"
-          name="weddingPhoto"
-          accept="image/png, image/jpeg"
-          ref={weddingPhotoRef}
-          onChange={(event) => {
-            const file = event.target.files?.item(0);
-            if (file) {
-              setWeddingPhoto(URL.createObjectURL(file));
-            }
-          }}
-        ></input>
       </form>
       <form className="flex flex-col items-center gap-2">
         <h2 className="text-2xl font-semibold">Coming to?</h2>
@@ -299,29 +308,31 @@ const RSVPPerson: FunctionComponent<RSVPPersonProps> = ({
   onUpdate,
 }) => {
   return (
-    <div className="w-fit rounded-md bg-gray-100 p-2">
-      <input
-        className="h-10 rounded-l-md bg-gray-50 p-2 focus:outline-none"
-        type="text"
-        placeholder="Name"
-        id={person.name}
-        defaultValue={person.name}
-        autoComplete="off"
-        onChange={(e) => {
-          person.name = e.target.value;
-          if (onUpdate) onUpdate();
-        }}
-      />
-      <select
-        className="h-10 cursor-pointer rounded-r-md bg-gray-50"
-        defaultValue={person.age.toString()}
-        onChange={(e) => {
-          person.age = parseInt(e.target.value);
-        }}
-      >
-        <option value={Age.Adult}>Adult</option>
-        <option value={Age.Kid}>Kid</option>
-      </select>
+    <div className="flex w-full justify-between rounded-md bg-gray-100 p-2">
+      <div>
+        <input
+          className="h-10 rounded-l-md bg-gray-50 p-2 focus:outline-none"
+          type="text"
+          placeholder="Name"
+          id={person.name}
+          defaultValue={person.name}
+          autoComplete="off"
+          onChange={(e) => {
+            person.name = e.target.value;
+            if (onUpdate) onUpdate();
+          }}
+        />
+        <select
+          className="h-10 cursor-pointer rounded-r-md bg-gray-50"
+          defaultValue={person.age.toString()}
+          onChange={(e) => {
+            person.age = parseInt(e.target.value);
+          }}
+        >
+          <option value={Age.Adult}>Adult</option>
+          <option value={Age.Kid}>Kid</option>
+        </select>
+      </div>
       <button
         type="button"
         className="ml-2 h-10 w-10 rounded-md bg-red-500 text-white hover:brightness-105"

@@ -7,13 +7,8 @@ type CodeProps = {
   loading?: boolean;
 };
 
-const Code: FC<CodeProps> = ({
-  length,
-  placeholder = "",
-  onCompleted,
-  loading,
-}) => {
-  const [code, setCode] = useState(placeholder);
+const Code: FC<CodeProps> = ({ length, placeholder, onCompleted, loading }) => {
+  const [code, setCode] = useState(placeholder ?? "");
   const inputs = new Array(length).fill(0);
   const itemsRef = useRef<HTMLInputElement[]>([]);
 
@@ -27,6 +22,12 @@ const Code: FC<CodeProps> = ({
     }
   }, [code]);
 
+  useEffect(() => {
+    if (placeholder === undefined) return;
+    setCode(placeholder ?? "");
+    itemsRef.current[0]?.focus();
+  }, [placeholder]);
+
   return (
     <div>
       {inputs.map((_, i) => (
@@ -39,10 +40,9 @@ const Code: FC<CodeProps> = ({
           }}
           disabled={loading}
           ref={(el) => (el ? (itemsRef.current[i] = el) : null)}
-          autoFocus={i === 0}
           className="m-2 h-10 w-10 rounded-md border-2 border-gray-300 text-center text-lg font-semibold caret-transparent focus:outline-primary md:h-16 md:w-14"
           key={i}
-          type="text"
+          type="number"
           maxLength={1}
           value={code[i] ?? ""}
           onKeyDown={(e) => {
