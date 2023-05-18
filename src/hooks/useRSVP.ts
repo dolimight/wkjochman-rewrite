@@ -4,6 +4,7 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import useRespondant, { Respondant } from "./useRespondant";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 enum Age {
   Adult,
@@ -23,19 +24,16 @@ type Person = {
 };
 
 const useRSVP = (code: string | null, resetCode: () => any) => {
+  const navigate = useNavigate();
   const { database, storage } = useFirebase();
   const respondantHook = useRespondant();
   const rsvps = collection(database, "rsvps");
   const [respondant, setRespondant] = useState<Respondant>();
   const [weddingPhoto, setWeddingPhoto] = useState<string>();
   const [loading, setLoading] = useState(false);
-  const { generateFamilyName } = useRespondant();
 
-  const uploadImage = async (data: Respondant, file: File) => {
-    await uploadBytes(
-      ref(storage, `/OtherWedding/${generateFamilyName(data)}.jpg`),
-      file
-    );
+  const uploadImage = async (key: string, file: File) => {
+    await uploadBytes(ref(storage, `/OtherWedding/${key}.jpg`), file);
   };
 
   const addRSVP = async (data: Respondant) => {
@@ -44,28 +42,34 @@ const useRSVP = (code: string | null, resetCode: () => any) => {
   };
 
   useEffect(() => {
-    const getImage = async (data: Respondant) => {
-      const url = await getDownloadURL(
-        ref(storage, `/OtherWedding/${generateFamilyName(data)}.jpg`)
-      );
-      if (url) setWeddingPhoto(url);
+    const getImage = async (key: string) => {
+      try {
+        const url = await getDownloadURL(
+          ref(storage, `/OtherWedding/${key}.jpg`)
+        );
+        if (url) setWeddingPhoto(url);
+      } catch (e) {}
     };
 
-    if (respondant && !weddingPhoto) getImage(respondant);
-  }, [respondant, weddingPhoto]);
+    if (code && !weddingPhoto) getImage(code);
+  }, [code, weddingPhoto]);
 
   const updateRSVP = async (
+    code: string | null,
     data: Respondant,
     setIsExploding: (isExploding: boolean) => void,
     file?: File | null
   ) => {
     try {
-      if (file) {
-        await uploadImage(data, file);
+      if (file && code) {
+        await uploadImage(code, file);
       }
       await addRSVP(data);
       setIsExploding(true);
       toast.success("Successfully submitted!");
+      setTimeout(() => {
+        navigate("/");
+      }, 4000);
     } catch (e) {
       toast.error("Something went wrong. Please try again!");
     }

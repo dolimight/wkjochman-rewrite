@@ -25,9 +25,9 @@ const RSVP: FC<RSVPProps> = ({}) => {
 
   const handleDone = useCallback(
     async (res: Respondant, photo?: File | null) => {
-      await updateRSVP(res, setIsExploding, photo);
+      await updateRSVP(code, res, setIsExploding, photo);
     },
-    []
+    [code]
   );
 
   return (
@@ -120,7 +120,7 @@ const RSVPForm: FunctionComponent<RSVPFormProps> = ({
     <div className="m-2 flex max-w-xl flex-col gap-6 rounded-md py-16 text-center">
       <h1 className="text-4xl font-bold">RSVP Form</h1>
       <form autoComplete="off" className="flex flex-col items-center gap-2">
-        <h2 className="text-2xl font-semibold">People Invited</h2>
+        <h2 className="text-2xl font-semibold">Guests Invited</h2>
         {names.map((person) => (
           <RSVPPerson person={person} remove={remove} key={person.name} />
         ))}
@@ -202,13 +202,36 @@ const RSVPForm: FunctionComponent<RSVPFormProps> = ({
             defaultValue={res?.address.zipCode.toString() ?? ""}
             ref={zipRef}
           />
+          <br />
+          <h2 className="text-2xl font-semibold">Coming to?</h2>
+          <select
+            defaultValue={res?.comingTo}
+            ref={comingToRef}
+            className="w-full cursor-pointer rounded-md bg-gray-100 p-2"
+          >
+            {Object.values(ComingTo)
+              .filter((i) => isNaN(Number(i)))
+              .map((value, index) => (
+                <option value={index} key={value}>
+                  {value}
+                </option>
+              ))}
+          </select>
+          <br />
           <h2 className="text-2xl font-semibold">Wedding Photo</h2>
+          <p className="text-sm text-gray-500">
+            We would be absolutely thrilled to have a glimpse of your cherished
+            moments! If you are married, we kindly request you to share the joy
+            by uploading your favorite picture from your special day.
+          </p>
           <div className="h-36 w-36 overflow-hidden rounded-md bg-gray-100">
-            <img
-              src={weddingPhoto ?? weddingPhotoProp}
-              alt=""
-              className="h-full w-full object-cover"
-            />
+            {(weddingPhoto || weddingPhotoProp) && (
+              <img
+                src={weddingPhoto ?? weddingPhotoProp}
+                alt=""
+                className="h-full w-full object-cover"
+              />
+            )}
           </div>
           <input
             className="w-full rounded-md bg-gray-100 p-2"
@@ -227,20 +250,6 @@ const RSVPForm: FunctionComponent<RSVPFormProps> = ({
         </div>
       </form>
       <form className="flex flex-col items-center gap-2">
-        <h2 className="text-2xl font-semibold">Coming to?</h2>
-        <select
-          defaultValue={res?.comingTo}
-          ref={comingToRef}
-          className="cursor-pointer rounded-md bg-gray-100 p-2"
-        >
-          {Object.values(ComingTo)
-            .filter((i) => isNaN(Number(i)))
-            .map((value, index) => (
-              <option value={index} key={value}>
-                {value}
-              </option>
-            ))}
-        </select>
         <button
           type="button"
           onClick={async () => {
@@ -309,9 +318,9 @@ const RSVPPerson: FunctionComponent<RSVPPersonProps> = ({
 }) => {
   return (
     <div className="flex w-full justify-between rounded-md bg-gray-100 p-2">
-      <div>
+      <div className="flex w-full">
         <input
-          className="h-10 rounded-l-md bg-gray-50 p-2 focus:outline-none"
+          className="h-10 w-full flex-1 rounded-l-md bg-gray-50 p-2 focus:outline-none"
           type="text"
           placeholder="Name"
           id={person.name}
@@ -323,7 +332,7 @@ const RSVPPerson: FunctionComponent<RSVPPersonProps> = ({
           }}
         />
         <select
-          className="h-10 cursor-pointer rounded-r-md bg-gray-50"
+          className="h-10 w-1/4 cursor-pointer rounded-r-md bg-gray-50"
           defaultValue={person.age.toString()}
           onChange={(e) => {
             person.age = parseInt(e.target.value);

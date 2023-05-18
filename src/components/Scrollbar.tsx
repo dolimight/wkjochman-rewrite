@@ -18,7 +18,7 @@ const Scrollbar: FC<ScrollbarProps> = ({ children }) => {
         className="fixed bottom-0 left-0 top-0 hidden h-full w-2 origin-top bg-primary md:block"
         style={{ scaleY: scaleY }}
       />
-      <div className="overflow-hidden md:ml-2">{children}</div>
+      <div className="md:ml-2">{children}</div>
     </>
   );
 };
