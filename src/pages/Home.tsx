@@ -25,12 +25,14 @@ const Home: FC<HomeProps> = ({}) => {
       <Scrollbar>
         <>
           <Navigation />
-          <Countdown />
-          <OurStory />
-          <BridalParty />
-          <Gallery />
-          <Details />
-          <FAQ />
+          <div className="overflow-x-hidden">
+            <Countdown />
+            <OurStory />
+            <BridalParty />
+            <Gallery />
+            <Details />
+            <FAQ />
+          </div>
         </>
       </Scrollbar>
       <CTA />
