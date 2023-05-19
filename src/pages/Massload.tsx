@@ -10,8 +10,8 @@ interface MassloadProps {}
 const Massload: FunctionComponent<MassloadProps> = () => {
   enum LogType {
     Error = "text-red-500",
-    Message = "text-green-500",
-    Warning = "text-yellow-500",
+    Message = "text-success",
+    Warning = "bg-warning text-warning-content",
   }
   const [file, setFile] = useState<File | null>(null);
 
@@ -156,9 +156,12 @@ const Massload: FunctionComponent<MassloadProps> = () => {
   };
 
   function logData(msg: string, type: LogType) {
-    let ele = document.createElement("div");
-    ele.innerText = msg;
+    let ele = document.createElement("pre");
+    let code = document.createElement("code");
+    code.innerText = msg;
     ele.className += type;
+    ele.append(code);
+    ele.setAttribute("data-prefix", ">");
     document.getElementById("console-out")?.append(ele);
   }
 
@@ -180,10 +183,9 @@ const Massload: FunctionComponent<MassloadProps> = () => {
       </div>
       <div className="w-full max-w-4xl text-left">
         <h1 className="mb-2 text-center text-4xl font-bold">Console</h1>
-        <div
-          id="console-out"
-          className="h-[600px] w-full overflow-y-auto rounded-2xl bg-gray-800 px-8 py-2 shadow-2xl"
-        ></div>
+        <div className="mockup-code w-full bg-gray-800">
+          <div id="console-out" className="h-[600px] overflow-y-auto"></div>
+        </div>
       </div>
     </div>
   );
