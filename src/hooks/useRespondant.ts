@@ -1,5 +1,5 @@
 import useAddress, { Address } from "./useAddress";
-import { Person, ComingTo } from "./useRSVP";
+import { Person, ComingTo, Age } from "./useRSVP";
 
 type Respondant = {
   names: Person[];
@@ -8,6 +8,17 @@ type Respondant = {
   address: Address;
   comingTo: ComingTo;
   getsPlusOne: boolean;
+};
+
+export const getDisplayNameAge = (age: Age) => {
+  switch (age) {
+    case Age.Adult:
+      return "Adult";
+    case Age.Kid:
+      return "Kid";
+    default:
+      return "Unknown";
+  }
 };
 
 const useRespondant = () => {

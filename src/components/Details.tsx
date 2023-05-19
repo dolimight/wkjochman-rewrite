@@ -1,16 +1,32 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { faAmazon } from "@fortawesome/free-brands-svg-icons";
 import {
   faChampagneGlasses,
   faChurch,
   faExternalLinkAlt,
   faHatCowboy,
   faHotel,
+  faKitchenSet,
   faPlaneArrival,
   faUtensils,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import classNames from "classnames";
 import { motion } from "framer-motion";
 import { FC } from "react";
+
+const registries: CardProps[] = [
+  {
+    title: "Amazon",
+    link: "https://www.amazon.com/wedding/share/wkjochman",
+    icon: faAmazon,
+  },
+  {
+    title: "Williams Sonoma",
+    link: "https://www.williams-sonoma.com/registry/ff28qw9gnj/registry-list.html",
+    icon: faKitchenSet,
+  },
+];
 
 const details: CardProps[] = [
   {
@@ -80,12 +96,13 @@ const airports: CardProps[] = [
 type CardProps = {
   title: string;
   time?: string;
-  location: string;
+  location?: string;
   address?: string;
   icon?: IconProp;
   index?: number;
   link?: string;
   duration?: string;
+  center?: boolean;
 };
 
 const Card: FC<CardProps> = ({
@@ -97,10 +114,14 @@ const Card: FC<CardProps> = ({
   index,
   link,
   duration,
+  center,
 }) => {
   return (
     <motion.div
-      className="m-2 flex flex-col justify-between rounded-xl bg-gray-50 p-4 text-center sm:p-6 lg:w-1/4 lg:items-start lg:p-8 lg:text-left"
+      className={classNames(
+        "m-2 flex flex-col justify-between rounded-xl bg-gray-50 p-4 text-center sm:p-6 lg:w-1/4 lg:p-8 ",
+        !center && "lg:items-start lg:text-left"
+      )}
       initial={{ y: 100, opacity: 0 }}
       whileInView={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, delay: (index ?? 0) * 0.25 }}
@@ -210,6 +231,27 @@ const Details: FC<DetailsProps> = ({}) => {
       <div className="flex flex-col justify-center px-4 py-8 sm:px-6 md:flex-row lg:px-8">
         {airports.map((airport, i) => (
           <Card key={airport.title} {...airport} index={i} />
+        ))}
+      </div>
+      <div className="flex flex-col items-center px-4 sm:px-6 lg:px-8">
+        <motion.div
+          className="max-w-xl text-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          viewport={{ once: true }}
+        >
+          <h2 className=" text-3xl font-bold sm:text-4xl">Registries</h2>
+          <p className="mt-4 text-gray-400">
+            We are truly grateful for your presence and well wishes as we
+            celebrate our wedding day. Your love and support mean the world to
+            us, and we are honored to have you share in our joyous occasion.
+          </p>
+        </motion.div>
+      </div>
+      <div className="flex flex-col justify-center px-4 py-8 sm:px-6 md:flex-row lg:px-8">
+        {registries.map((registry, i) => (
+          <Card key={registry.title} {...registry} index={i} center />
         ))}
       </div>
     </section>
