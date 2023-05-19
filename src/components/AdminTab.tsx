@@ -45,9 +45,24 @@ const AdminTab: FC<AdminTabProps> = ({ details }) => {
   const tabs: {
     name: string;
     component: JSX.Element;
+    extraClassNames?: string;
   }[] = [
     {
       name: "Coming",
+      component: (
+        <AdminTable
+          items={[
+            ...details.coming,
+            ...details.comingToCeremonyOnly,
+            ...details.comingToReceptionOnly,
+          ].flatMap(getPeopleWithLastname)}
+          columns={columns}
+          key={self.name}
+        />
+      ),
+    },
+    {
+      name: "Coming Only",
       component: (
         <AdminTable
           items={details.coming.flatMap(getPeopleWithLastname)}
@@ -65,6 +80,7 @@ const AdminTab: FC<AdminTabProps> = ({ details }) => {
           key={self.name}
         />
       ),
+      extraClassNames: "max-sm:hidden",
     },
     {
       name: "Reception Only",
@@ -75,6 +91,7 @@ const AdminTab: FC<AdminTabProps> = ({ details }) => {
           key={self.name}
         />
       ),
+      extraClassNames: "max-sm:hidden",
     },
     {
       name: "Not Coming",
@@ -93,7 +110,11 @@ const AdminTab: FC<AdminTabProps> = ({ details }) => {
       <div className="tabs tabs-boxed justify-center">
         {tabs.map((t) => (
           <button
-            className={classNames("tab", t.name === tab && "tab-active")}
+            className={classNames(
+              "tab",
+              t.name === tab && "tab-active",
+              t.extraClassNames
+            )}
             onClick={() => setTab(t.name)}
             key={t.name}
           >
