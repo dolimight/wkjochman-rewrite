@@ -15,7 +15,7 @@ const Admin: FC<AdminProps> = ({}) => {
   const { rsvpDetails } = useAdmin();
 
   return (
-    <div className="flex w-full flex-col justify-center p-4 text-center">
+    <div className="flex w-full flex-col overflow-hidden p-4 text-center">
       <h1 className="text-4xl font-bold">Admin</h1>
       <div className="stats my-4 shadow">
         <div className="stat place-items-center">
