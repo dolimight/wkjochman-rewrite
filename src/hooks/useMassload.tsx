@@ -11,7 +11,6 @@ const useMassload = () => {
   const { database } = useFirebase();
 
   const addRSVP = async (rsvp: MassloadRSVP) => {
-    console.log(rsvp);
     await setDoc(doc(database, "rsvps", String(rsvp.code)), rsvp.respondant);
   };
 

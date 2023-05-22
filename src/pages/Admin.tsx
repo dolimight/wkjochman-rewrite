@@ -1,11 +1,10 @@
 import { FC } from "react";
-import useAdmin from "../hooks/useAdmin";
-import { Respondant } from "../hooks/useRespondant";
+import useAdmin, { RSVP } from "../hooks/useAdmin";
 import AdminTab from "../components/AdminTab";
 
-export const getPeople = (rsvp: Respondant) => {
-  const ret = [...rsvp.names];
-  if (rsvp.plusOne) ret.push(rsvp.plusOne);
+export const getPeople = (rsvp: RSVP) => {
+  const ret = [...rsvp.respondant.names];
+  if (rsvp.respondant.plusOne) ret.push(rsvp.respondant.plusOne);
   return ret;
 };
 

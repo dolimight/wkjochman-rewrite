@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 const useCode = () => {
+  const [searchParams, _] = useSearchParams();
   const [code, setCode] = useState<string | null>(
-    sessionStorage.getItem("code")
+    searchParams ? searchParams.get("code") : sessionStorage.getItem("code")
   );
 
   const handleCodeChange = (code: string) => {
