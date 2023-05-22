@@ -1,17 +1,23 @@
 import classNames from "classnames";
 import { FC, useState } from "react";
-import { RSVPDetails } from "../hooks/useAdmin";
-import AdminTable from "./AdminTable";
+import { RSVP, RSVPDetails } from "../hooks/useAdmin";
+import AdminTable, { Item } from "./AdminTable";
 import { Age } from "../hooks/useRSVP";
-import { Respondant, getDisplayNameAge } from "../hooks/useRespondant";
+import { getDisplayNameAge } from "../hooks/useRespondant";
 
-export const getPeopleWithLastname = (rsvp: Respondant) => {
-  let ret = [...rsvp.names];
-  if (rsvp.plusOne) ret.push(rsvp.plusOne);
+export const getPeopleWithLastname = (rsvp: RSVP) => {
+  let ret: Item[] = [...rsvp.respondant.names];
   ret = ret.map((person) => {
     return {
       ...person,
-      name: person.name + " " + rsvp.lastname,
+      name: person.name + " " + rsvp.respondant.lastname,
+    };
+  });
+  if (rsvp.respondant.plusOne) ret.push(rsvp.respondant.plusOne);
+  ret = ret.map((person) => {
+    return {
+      ...person,
+      code: rsvp.code,
     };
   });
   return ret;
