@@ -42,7 +42,7 @@ const OurStory: FC<OurStoryProps> = ({}) => {
               >
                 Wesley and Katie met in High School at Fox Valley Lutheran as
                 Sophmores. Wesley immediatly took notice of Katie during the
-                fist couple of weeks. He was extremely nervous around her but
+                first couple of weeks. He was extremely nervous around her but
                 would talk to her as much as he could. He ended up helping her
                 with homework, and eventually convinced her to join the robotics
                 team.
