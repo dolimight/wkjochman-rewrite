@@ -4,8 +4,10 @@ import { RSVP, RSVPDetails } from "../hooks/useAdmin";
 import AdminTable, { Item } from "./AdminTable";
 import { Age } from "../hooks/useRSVP";
 import { getDisplayNameAge } from "../hooks/useRespondant";
+import randomColor from "randomcolor";
 
 export const getPeopleWithLastname = (rsvp: RSVP) => {
+  const color = randomColor();
   let ret: Item[] = [...rsvp.respondant.names];
   ret = ret.map((person) => {
     return {
@@ -18,6 +20,8 @@ export const getPeopleWithLastname = (rsvp: RSVP) => {
     return {
       ...person,
       code: rsvp.code,
+      color: color,
+      lastname: rsvp.respondant.lastname,
     };
   });
   return ret;
