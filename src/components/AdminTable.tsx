@@ -6,6 +6,8 @@ import { faExternalLink } from "@fortawesome/free-solid-svg-icons";
 
 type Item = Person & {
   code?: string;
+  color?: string;
+  lastname?: string;
 };
 
 type AdminTableProps = {
@@ -29,7 +31,12 @@ const AdminTable: FC<AdminTableProps> = ({ items, columns }) => {
         {!!items.length ? (
           items.map((i, idx) => (
             <tr key={`row-${i.name}-${idx}`} className="hover">
-              <td>{idx + 1}</td>
+              <td>
+                <div
+                  className="badge w-full select-none border-none text-transparent"
+                  style={{ background: i.color }}
+                ></div>
+              </td>
               {columns.map((c) => {
                 const value = new Map(Object.entries(i)).get(c.key);
                 return (
@@ -46,8 +53,10 @@ const AdminTable: FC<AdminTableProps> = ({ items, columns }) => {
                     window.open(`/rsvp?code=${i.code}`);
                   }}
                 >
-                  Open
-                  <FontAwesomeIcon icon={faExternalLink} className="ml-2" />
+                  <span className="whitespace-nowrap">
+                    Open
+                    <FontAwesomeIcon icon={faExternalLink} className="ml-2" />
+                  </span>
                 </button>
               </td>
             </tr>
