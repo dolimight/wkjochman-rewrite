@@ -72,7 +72,7 @@ const AdminTab: FC<AdminTabProps> = ({ details }) => {
       ),
     },
     {
-      name: "Coming Only",
+      name: "Coming To All",
       component: (
         <AdminTable
           items={details.coming.flatMap(getPeopleWithLastname)}
@@ -80,6 +80,7 @@ const AdminTab: FC<AdminTabProps> = ({ details }) => {
           key={self.name}
         />
       ),
+      extraClassNames: "max-sm:hidden",
     },
     {
       name: "Ceremony Only",
@@ -108,6 +109,16 @@ const AdminTab: FC<AdminTabProps> = ({ details }) => {
       component: (
         <AdminTable
           items={details.notComing.flatMap(getPeopleWithLastname)}
+          columns={columns}
+          key={self.name}
+        />
+      ),
+    },
+    {
+      name: "Hasn't Responded",
+      component: (
+        <AdminTable
+          items={details.hasNotResponded.flatMap(getPeopleWithLastname)}
           columns={columns}
           key={self.name}
         />
