@@ -37,11 +37,7 @@ const useAdmin = () => {
   }, [database, rsvps]);
 
   const coming = useMemo(() => {
-    return rsvps.filter(
-      (rsvp) =>
-        rsvp.respondant.comingTo !== ComingTo.None &&
-        rsvp.respondant.comingTo !== ComingTo.Unknown
-    );
+    return rsvps.filter((rsvp) => rsvp.respondant.comingTo === ComingTo.All);
   }, [rsvps]);
 
   const notComing = useMemo(() => {
@@ -49,13 +45,13 @@ const useAdmin = () => {
   }, [rsvps]);
 
   const comingToCeremonyOnly = useMemo(() => {
-    return coming.filter(
+    return rsvps.filter(
       (rsvp) => rsvp.respondant.comingTo === ComingTo.Ceremony
     );
   }, [coming]);
 
   const comingToReceptionOnly = useMemo(() => {
-    return coming.filter(
+    return rsvps.filter(
       (rsvp) => rsvp.respondant.comingTo === ComingTo.Reception
     );
   }, [coming]);
