@@ -18,14 +18,14 @@ type RSVPProps = {};
 
 const RSVP: FC<RSVPProps> = ({}) => {
   const { code, handleCodeChange } = useCode();
-  const { respondant, loading, weddingPhoto, updateRSVP } = useRSVP(code, () =>
+  const { respondant, loading, updateRSVP } = useRSVP(code, () =>
     handleCodeChange("")
   );
   const [isExploding, setIsExploding] = useState(false);
 
   const handleDone = useCallback(
-    async (res: Respondant, photo?: File | null) => {
-      await updateRSVP(code, res, setIsExploding, photo);
+    async (res: Respondant) => {
+      await updateRSVP(res, setIsExploding);
     },
     [code]
   );
@@ -56,7 +56,6 @@ const RSVP: FC<RSVPProps> = ({}) => {
         <div className="grid place-items-center">
           <RSVPForm
             respondant={respondant}
-            weddingPhotoProp={weddingPhoto}
             onDone={handleDone}
             isExploding={isExploding}
             setIsExploding={setIsExploding}
@@ -80,15 +79,13 @@ const RSVP: FC<RSVPProps> = ({}) => {
 
 interface RSVPFormProps {
   respondant: Respondant | null;
-  weddingPhotoProp?: string;
-  onDone: (res: Respondant, photo?: File | null) => Promise<void>;
+  onDone: (res: Respondant) => Promise<void>;
   isExploding?: boolean;
   setIsExploding: (isExploding: boolean) => void;
 }
 
 const RSVPForm: FunctionComponent<RSVPFormProps> = ({
   respondant,
-  weddingPhotoProp,
   onDone,
   isExploding,
   setIsExploding,
@@ -102,8 +99,6 @@ const RSVPForm: FunctionComponent<RSVPFormProps> = ({
   const cityRef = useRef<HTMLInputElement>(null);
   const stateRef = useRef<HTMLInputElement>(null);
   const zipRef = useRef<HTMLInputElement>(null);
-  const weddingPhotoRef = useRef<HTMLInputElement>(null);
-  const [weddingPhoto, setWeddingPhoto] = useState<string>();
 
   const remove = (person: Person) => {
     setPersonHistory([...personHistory, person]);
@@ -211,42 +206,15 @@ const RSVPForm: FunctionComponent<RSVPFormProps> = ({
           >
             {Object.values(ComingTo)
               .filter((i) => isNaN(Number(i)))
-              .map((value, index) => (
-                <option value={index} key={value}>
-                  {value}
-                </option>
-              ))}
+              .map(
+                (value, index) =>
+                  value !== ComingTo[ComingTo.Unknown] && (
+                    <option value={index} key={value}>
+                      {value}
+                    </option>
+                  )
+              )}
           </select>
-          <br />
-          <h2 className="text-2xl font-semibold">Wedding Photo</h2>
-          <p className="text-sm text-gray-500">
-            We would be absolutely thrilled to have a glimpse of your cherished
-            moments! If you are married, we kindly request you to share the joy
-            by uploading your favorite picture from your special day.
-          </p>
-          <div className="h-36 w-36 overflow-hidden rounded-md bg-gray-100">
-            {(weddingPhoto || weddingPhotoProp) && (
-              <img
-                src={weddingPhoto ?? weddingPhotoProp}
-                alt=""
-                className="h-full w-full object-cover"
-              />
-            )}
-          </div>
-          <input
-            className="w-full rounded-md bg-gray-100 p-2"
-            type="file"
-            id="weddingPhoto"
-            name="weddingPhoto"
-            accept="image/png, image/jpeg"
-            ref={weddingPhotoRef}
-            onChange={(event) => {
-              const file = event.target.files?.item(0);
-              if (file) {
-                setWeddingPhoto(URL.createObjectURL(file));
-              }
-            }}
-          />
         </div>
       </form>
       <form className="flex flex-col items-center gap-2">
@@ -263,21 +231,17 @@ const RSVPForm: FunctionComponent<RSVPFormProps> = ({
               isExploding
             )
               return;
-
-            onDone(
-              {
-                ...res,
-                address: {
-                  address: addressRef.current.value,
-                  city: cityRef.current.value,
-                  state: stateRef.current.value,
-                  zipCode: Number(zipRef.current.value),
-                },
-                comingTo: Number(comingToRef.current.value),
-                plusOne,
+            onDone({
+              ...res,
+              address: {
+                address: addressRef.current.value,
+                city: cityRef.current.value,
+                state: stateRef.current.value,
+                zipCode: Number(zipRef.current.value),
               },
-              weddingPhotoRef.current?.files?.item(0)
-            );
+              comingTo: Number(comingToRef.current.value),
+              plusOne,
+            });
           }}
           className={classNames(
             "mt-6 w-full rounded-md bg-primary p-2 text-white hover:brightness-105",

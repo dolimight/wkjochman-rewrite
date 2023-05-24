@@ -14,6 +14,7 @@ type RSVPDetails = {
   notComing: RSVP[];
   comingToCeremonyOnly: RSVP[];
   comingToReceptionOnly: RSVP[];
+  hasNotResponded: RSVP[];
 };
 
 const useAdmin = () => {
@@ -36,7 +37,11 @@ const useAdmin = () => {
   }, [database, rsvps]);
 
   const coming = useMemo(() => {
-    return rsvps.filter((rsvp) => rsvp.respondant.comingTo !== ComingTo.None);
+    return rsvps.filter(
+      (rsvp) =>
+        rsvp.respondant.comingTo !== ComingTo.None &&
+        rsvp.respondant.comingTo !== ComingTo.Unknown
+    );
   }, [rsvps]);
 
   const notComing = useMemo(() => {
@@ -55,6 +60,12 @@ const useAdmin = () => {
     );
   }, [coming]);
 
+  const hasNotResponded = useMemo(() => {
+    return rsvps.filter(
+      (rsvp) => rsvp.respondant.comingTo === ComingTo.Unknown
+    );
+  }, [coming]);
+
   return {
     rsvps,
     rsvpDetails: {
@@ -62,6 +73,7 @@ const useAdmin = () => {
       notComing,
       comingToCeremonyOnly,
       comingToReceptionOnly,
+      hasNotResponded,
     } satisfies RSVPDetails,
   };
 };
