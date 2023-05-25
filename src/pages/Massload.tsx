@@ -95,7 +95,7 @@ const Massload: FunctionComponent<MassloadProps> = () => {
                 lastname: item.lastname,
                 getsPlusOne: item.getsPlusOne,
                 address: address,
-                comingTo: ComingTo.None,
+                comingTo: ComingTo.Unknown,
               },
               code: item.code,
             };
