@@ -45,7 +45,7 @@ const details: CardProps[] = [
   },
   {
     title: "Dinner & Dancing",
-    time: "5:30 PM",
+    time: "6:00 PM",
     location: "DeBruin Household",
     address: "N392 Irish Rd, New Holstein, WI 53061",
     icon: faUtensils,
