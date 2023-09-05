@@ -60,7 +60,7 @@ const Gallery: FC<GalleryProps> = ({}) => {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               target="_blank"
-              href="https://photos.app.goo.gl/S2YiZybtQaJ6xQPo6"
+              href="https://photos.app.goo.gl/2VZiwMJdnqJNtyc16"
               className="inline-block rounded bg-primary px-12 py-3 text-sm font-medium text-white transition hover:brightness-105 focus:outline-none focus:ring focus:ring-primary focus:ring-offset-1"
             >
               Wedding (Professional Photos)
